@@ -16,6 +16,73 @@
 
 'use strict';
 
+/****************************************************REBECA DID THIS*/
+// authentication
+var DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
+
+var discovery = new DiscoveryV1({
+  username: '304b1588-a564-4db8-ba11-2e398eb38ce1',
+  password: 'UtIDlkn2cvlR',
+  version: 'v1',
+  version_date: '2017-11-07'
+});
+
+/*
+// Environments
+discovery.createEnvironment({
+  name: 'my_environment',
+  description: 'My environment',
+  size: 1
+},
+  function (err, response) {
+    if (err)
+      console.log('error:', err);
+    else
+      console.log(JSON.stringify(response, null, 2));
+});
+*/
+
+// List Environments
+discovery.getEnvironments({}, function(error, data) {
+  console.log(JSON.stringify(data, null, 2));
+});
+
+discovery.getEnvironment(('{environment_id}'), function(error, data) {
+  console.log(JSON.stringify(data, null, 2));
+});
+
+discovery.getCollections(('{environment_id}'), function(error, data) {
+  console.log(JSON.stringify(data, null, 2));
+});
+
+// List Configuration
+discovery.getConfigurations(('{environment_id}'), function(error, data) {
+  console.log(JSON.stringify(data, null, 2));
+});
+
+/*
+// Create a collection
+discovery.createCollection(('{environment_id}', '{collection_name}', '{description}', '{configuration_id}', '{language}'), function(error, data) {
+  console.log(JSON.stringify(data, null, 2));
+});
+*/
+
+/* //Query
+discovery.query({
+    environment_id: 'system',
+    collection_id: 'news',
+    query: 'who is the president'
+  }, function(err, response) {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(JSON.stringify(response, null, 2));
+        }
+   });
+*/
+
+/*****************************************************/
+
 var WatsonConversationSetup = require('./lib/watson-conversation-setup');
 var DEFAULT_NAME = 'watson-conversation-slots-intro';
 var fs = require('fs'); // file system for loading JSON
@@ -46,7 +113,8 @@ var conversation = watson.conversation({
 });
 
 var conversationSetup = new WatsonConversationSetup(conversation);
-var workspaceJson = JSON.parse(fs.readFileSync('data/watson-pizzeria.json'));
+// var workspaceJson = JSON.parse(fs.readFileSync('data/watson-pizzeria.json'));
+var workspaceJson = JSON.parse(fs.readFileSync('data/jsonteste.json'));
 var conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
 conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data) => {
   if (err) {
